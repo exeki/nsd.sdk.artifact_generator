@@ -1,0 +1,33 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group = 'ru.ekazantsev'
+version = '1.0.0'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation files('nsd_upper_level_classes-1.0.0.jar')
+    implementation 'org.jetbrains:annotations:16.0.1'
+}
+
+compileJava.options.encoding = 'UTF-8'
+
+test {
+    useJUnitPlatform()
+}
+
+sourceCompatibility = 1.11
+targetCompatibility = 1.11
+
+jar {
+    duplicatesStrategy = 'exclude' // Устанавливаем стратегию исключения дубликатов
+    manifest {}
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
