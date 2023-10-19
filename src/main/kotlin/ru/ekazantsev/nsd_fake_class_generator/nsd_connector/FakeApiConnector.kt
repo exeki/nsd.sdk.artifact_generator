@@ -11,7 +11,7 @@ import ru.ekazantsev.nsd_basic_api_connector.ConnectorParams
  */
 class FakeApiConnector(params: ConnectorParams) : Connector(params) {
 
-    private val moduleBase: String = "modules.fakeApiController."
+    private val moduleBase: String = "modules.sdkController"
     private val paramsConst: String = "request,response,user"
 
     /**
