@@ -23,11 +23,9 @@ class ProjectGeneratorService(private var artifactConstants: ArtifactConstants) 
     val db = DbAccess.getInstance()
 
     private val filesToCopy = setOf(
-        "build.gradle",
         "gradlew",
         "gradlew.bat",
         "nsd_upper_level_classes-1.0.0.jar",
-        "settings.gradle"
     )
 
     /**
@@ -98,6 +96,15 @@ class ProjectGeneratorService(private var artifactConstants: ArtifactConstants) 
             )
             else throw RuntimeException("Cant find resource $it")
         }
+
+        val template = classLoader.getResource("projectFiles/build.gradle")?.readText()
+            ?: throw RuntimeException("Cant find build.gradle file in resources")
+
+        val filledTemplate = template
+            .replace("\${targetJarVersion}", artifactConstants.targetJarVersion)
+            .replace("\${targetJarName}", artifactConstants.targetJarName)
+        File("${artifactConstants.projectFolder}\\build.gradle").writeText(filledTemplate)
+
         copyResourceDirectoryToLocation("projectFiles\\gradle", "${artifactConstants.projectFolder}\\gradle")
         logger.info("Copy files - done")
         logger.info("Project generation - done")

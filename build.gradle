@@ -12,21 +12,17 @@ repositories {
 }
 
 dependencies {
-    // https://mvnrepository.com/artifact/com.j256.ormlite/ormlite-android
     implementation 'com.j256.ormlite:ormlite-jdbc:6.1'
     implementation 'com.h2database:h2:2.1.214'
 
-    // https://mvnrepository.com/artifact/com.squareup/javapoet
     implementation 'com.squareup:javapoet:1.13.0'
-    // https://mvnrepository.com/artifact/org.jsoup/jsoup
     implementation 'org.jsoup:jsoup:1.16.1'
 
-    //Thanks for using https://jar-download.com
-    implementation files('C:\\projects\\nds\\projects\\sdk\\nsd_upper_level_classes\\build\\libs\\nsd_upper_level_classes-1.0.0.jar')
-    implementation files('C:\\projects\\nds\\projects\\sdk\\nsd_basic_api_connector\\build\\libs\\nsd_basic_api_connector-1.0.0.jar')
+    implementation files('libs\\nsd_upper_level_classes-1.0.0.jar')
+    implementation files('libs\\nsd_basic_api_connector-1.0.0.jar')
 
     testImplementation 'ch.qos.logback:logback-classic:1.4.11'
-    testImplementation 'ch.qos.logback:logback-core:1.2.9'
+    //testImplementation 'ch.qos.logback:logback-core:1.2.9'
 
     testImplementation 'org.codehaus.groovy:groovy-all:3.0.19'
     testImplementation 'org.jetbrains.kotlin:kotlin-test'

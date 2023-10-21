@@ -5,65 +5,77 @@ package ru.ekazantsev.nsd_fake_class_generator
  */
 class ArtifactConstants {
 
+    constructor() {
+        this.targetJarFolder = "${System.getProperty("user.home")}\\nsd_sdk\\out"
+        this.targetJarPath = "$targetJarFolder\\$targetJarName-$targetJarVersion.jar"
+    }
+
+    constructor(targetJarFolder: String) {
+        this.targetJarFolder = targetJarFolder
+        this.targetJarPath = "$targetJarFolder\\$targetJarName-$targetJarVersion.jar"
+    }
+
     /**
      * Постфикс для всех сгенерированных классов
      */
-    var classNamePostfix = "ScriptDtObject"
-        private set
+    val classNamePostfix = "ScriptDtObject"
 
     /**
      * Пакет, куда будут сгружаться все сгенерированные классы
      */
-    var packageName: String = "ru.naumen.core.server.script.spi"
-        private set
+    val packageName: String = "ru.naumen.core.server.script.spi"
 
     /**
      * Имя для класса, который будет являться хранилищем метаинформации
      */
-    var generatedMetaClassName = "GeneratedMeta"
-        private set
+    val generatedMetaClassName = "GeneratedMeta"
 
     /**
      * Пакет, куда складывается метаинформация
      */
-    var generatedMetaClassPackage = "ru.ekazantsev.nsd_generated_fake_classes"
-        private set
+    val generatedMetaClassPackage = "ru.ekazantsev.nsd_generated_fake_classes"
 
     /**
      * Имя папки создаваемого проекта
      */
-    var projectFolderName = "nsd_fake_classes"
-        private set
+    val projectFolderName = "nsd_fake_classes"
 
     /**
      * Путь до попки, в которой будет находиться проект
      */
-    var projectPath: String = System.getProperty("user.home") + "\\nsd_sdk\\data"
-        private set
+    val projectPath: String = System.getProperty("user.home") + "\\nsd_sdk\\data"
 
     /**
      * Путь до папки проекта
      */
-    var projectFolder: String = "$projectPath\\$projectFolderName"
-        private set
+    val projectFolder: String = "$projectPath\\$projectFolderName"
 
     /**
      * Папка исходников сгенерированного проекта
      */
-    var generatedProjectSrcPath = "$projectFolder\\src\\main\\java"
-        private set
+    val generatedProjectSrcPath = "$projectFolder\\src\\main\\java"
+
+    /**
+     * Наименование jar файла
+     */
+    val targetJarName = "nsd_fake_classes"
+
+    val targetJarVersion = "1.0.0"
 
     /**
      * Путь до собранного jar в проекте файла
      */
-    var newJarPath = "$projectFolder\\build\\libs\\nsd_fake_classes-1.0.0.jar"
-        private set
+    val newJarPath = "$projectFolder\\build\\libs\\$targetJarName-$targetJarVersion.jar"
 
     /**
-     * Путь, куда будет доставлен генерируемый jar файл
+     * Путь до папки, куда будет помещен целевой jar файл
      */
-    var targetJarPath = System.getProperty("user.home") + "\\nsd_sdk\\out\\nsd_fake_classes-1.0.0.jar"
-        private set
+    val targetJarFolder: String
+
+    /**
+     * Целевой путь до jar файла
+     */
+    val targetJarPath : String
 
     /**
      * Получить наименование для класса на основании кода метакласса NSD
