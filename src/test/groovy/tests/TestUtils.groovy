@@ -10,7 +10,7 @@ import ru.ekazantsev.nsd_basic_api_connector.ConnectorParams
 class TestUtils {
     static Logger logger = LoggerFactory.getLogger(getClass())
     static ConnectorParams connectorParams = ConnectorParams.byConfigFile("DSO_TEST")
-    static FakeApiConnector nsdFakeApi = new FakeApiConnector(connectorParams, true)
+    static FakeApiConnector nsdFakeApi = new FakeApiConnector(connectorParams)
     static ObjectMapper objectMapper = new ObjectMapper()
     static DbAccess db = DbAccess.getInstance()
 }
