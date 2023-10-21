@@ -1,4 +1,4 @@
-package ru.ekazantsev.nsd_fake_class_generator.src_generation
+package ru.ekazantsev.nsd_fake_class_generator.services.src_generation
 
 import com.squareup.javapoet.CodeBlock
 import com.squareup.javapoet.TypeSpec
@@ -6,21 +6,16 @@ import org.jsoup.Jsoup
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import ru.ekazantsev.nsd_fake_class_generator.data.dto.MetaClass
+import ru.ekazantsev.nsd_fake_class_generator.ArtifactConstants
 import ru.naumen.core.server.script.spi.IScriptDtObject
 import javax.lang.model.element.Modifier
 
 /**
  * Служба, отвечающая за генерацию прототипов кода классов
  */
-class ClassGeneratorService() {
-
-    constructor(packageService: PackageService) : this() {
-        this.packageService = packageService
-    }
+class ClassGeneratorService(private val artifactConstants: ArtifactConstants) {
 
     val generatedClasses: MutableSet<String> = mutableSetOf()
-
-    private var packageService = PackageService()
 
     private val logger: Logger = LoggerFactory.getLogger(ClassGeneratorService::class.java)
 
@@ -56,7 +51,7 @@ class ClassGeneratorService() {
     fun generateClassProto(metaClass: MetaClass): TypeSpec.Builder {
         logger.info("Generating class ${metaClass.fullCode}...")
         logger.debug("Creating class proto...")
-        val className = packageService.getClassName(metaClass.fullCode)
+        val className = artifactConstants.getClassNameFromMetacode(metaClass.fullCode)
         val classProto: TypeSpec.Builder = TypeSpec
             .classBuilder(className)
             .addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
@@ -66,7 +61,7 @@ class ClassGeneratorService() {
         classProto.addJavadoc(generateClassJavaDocProto(metaClass).build())
         logger.debug("Generating javaDoc - done")
         logger.debug("Creating class fields...")
-        val fieldGenerator = FieldGeneratorService(packageService)
+        val fieldGenerator = FieldGeneratorService(artifactConstants)
         metaClass.attributes.forEach {
             val fieldProto = fieldGenerator.generateFieldProto(it)
             if (fieldProto != null) classProto.addField(fieldProto.build())

@@ -27,6 +27,7 @@ targetCompatibility = 1.11
 jar {
     duplicatesStrategy = 'exclude' // Устанавливаем стратегию исключения дубликатов
     manifest {}
+    archiveBaseName = 'nsd_fake_classes'
     from {
         configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }

@@ -1,4 +1,4 @@
-package ru.ekazantsev.nsd_fake_class_generator.src_generation
+package ru.ekazantsev.nsd_fake_class_generator.services.src_generation
 
 import com.squareup.javapoet.*
 import org.jetbrains.annotations.NotNull
@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory
 import ru.ekazantsev.nsd_fake_class_generator.data.DbAccess
 import ru.ekazantsev.nsd_fake_class_generator.data.dto.Attribute
 import ru.ekazantsev.nsd_fake_class_generator.data.dto.AttributeType
+import ru.ekazantsev.nsd_fake_class_generator.ArtifactConstants
 import ru.naumen.common.shared.utils.DateTimeInterval
 import ru.naumen.common.shared.utils.IHyperlink
 import ru.naumen.core.server.script.spi.AggregateContainerWrapper
@@ -26,13 +27,7 @@ import javax.lang.model.element.Modifier
 /**
  * Служба для генерации прототипов полей
  */
-class FieldGeneratorService() {
-
-    constructor(packageService: PackageService) : this() {
-        this.packageService = packageService
-    }
-
-    private var packageService: PackageService = PackageService()
+class FieldGeneratorService(private var artifactConstants: ArtifactConstants) {
 
     private val logger: Logger = LoggerFactory.getLogger(FieldGeneratorService::class.java)
 
@@ -67,7 +62,7 @@ class FieldGeneratorService() {
      */
     private fun getFieldProto(meta: String, attr: Attribute): FieldSpec.Builder {
         val className: ClassName = if (db.metaClassDao.queryForEq("fullCode", meta).firstOrNull() != null) {
-            ClassName.get(packageService.packageName, packageService.getClassName(meta))
+            ClassName.get(artifactConstants.packageName, artifactConstants.getClassNameFromMetacode(meta))
         } else {
             ClassName.get(Object::class.java)
         }
@@ -108,7 +103,7 @@ class FieldGeneratorService() {
     private fun getGenericFieldProto(type: Class<*>, attr: Attribute): FieldSpec.Builder {
         val className: ClassName =
             if (db.metaClassDao.queryForEq("fullCode", attr.relatedMetaClass!!).firstOrNull() != null) {
-                ClassName.get(packageService.packageName, packageService.getClassName(attr.relatedMetaClass!!))
+                ClassName.get(artifactConstants.packageName, artifactConstants.getClassNameFromMetacode(attr.relatedMetaClass!!))
             } else {
                 ClassName.get(Object::class.java)
             }
@@ -200,8 +195,8 @@ class FieldGeneratorService() {
                     ParameterizedTypeName.get(
                         ClassName.get(ScriptDtOList::class.java),
                         ClassName.get(
-                            packageService.packageName,
-                            packageService.getClassName("file")
+                            artifactConstants.packageName,
+                            artifactConstants.getClassNameFromMetacode("file")
                         )
                     ),
                     attr.code,

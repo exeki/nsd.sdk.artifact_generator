@@ -1,10 +1,13 @@
-package ru.ekazantsev.nsd_fake_class_generator.src_generation
+package ru.ekazantsev.nsd_fake_class_generator.services
 
 import com.squareup.javapoet.*
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import ru.ekazantsev.nsd_fake_class_generator.ArtifactConstants
 import ru.ekazantsev.nsd_fake_class_generator.data.DbAccess
 import ru.ekazantsev.nsd_fake_class_generator.data.dto.Installation
+import ru.ekazantsev.nsd_fake_class_generator.services.src_generation.ClassGeneratorService
+import ru.ekazantsev.nsd_fake_class_generator.services.src_generation.MetainfoClassGeneratorService
 import java.io.File
 import java.io.InputStream
 import java.nio.file.Files
@@ -14,56 +17,18 @@ import java.nio.file.StandardCopyOption
  * Служба, генерирующая весь проект
  * является входной точкой в генерацию проекта
  */
-class ProjectGeneratorService(targetFolderPath: String) {
-    private var packageService: PackageService = PackageService()
+class ProjectGeneratorService(private var artifactConstants: ArtifactConstants) {
+
     private val logger: Logger = LoggerFactory.getLogger(ProjectGeneratorService::class.java)
-    private val projectPath: String = "$targetFolderPath\\${packageService.projectFolder}"
-    private val generatedProjectSrcPath = "$projectPath\\src\\main\\java"
     val db = DbAccess.getInstance()
+
     private val filesToCopy = setOf(
         "build.gradle",
         "gradlew",
         "gradlew.bat",
-        "nsd_classes-1.0.0.jar",
+        "nsd_upper_level_classes-1.0.0.jar",
         "settings.gradle"
     )
-
-
-    /**
-     * Запустить сборку проекта при помощи gradle
-     * ВАЖНО: gradle уже должен быть установлен на ПК
-     */
-    private fun runGradleBuild() {
-        val processBuilder = ProcessBuilder("${projectPath}\\gradlew.bat", "jar")
-
-        processBuilder.directory(File(projectPath))
-
-        val process = processBuilder.start()
-        val inputStream = process.inputStream
-        val errorStream = process.errorStream
-
-        val inputReader = inputStream.reader()
-        val errorReader = errorStream.reader()
-
-        val inputThread = Thread {
-            inputReader.forEachLine { line ->
-                println("GRADLE INFO: $line")
-            }
-        }
-
-        val errorThread = Thread {
-            errorReader.forEachLine { line ->
-                println("GRADLE ERROR: $line")
-            }
-        }
-
-        inputThread.start()
-        errorThread.start()
-
-        process.waitFor()
-        inputThread.join()
-        errorThread.join()
-    }
 
     /**
      * Копирует папку из ресурсов проекта в целевую директорию
@@ -85,7 +50,11 @@ class ProjectGeneratorService(targetFolderPath: String) {
 
                     if (file.isDirectory) {
                         if (!destinationFile.exists()) destinationFile.mkdirs()
-                    } else Files.copy(Files.newInputStream(file.toPath()), destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING)
+                    } else Files.copy(
+                        Files.newInputStream(file.toPath()),
+                        destinationFile.toPath(),
+                        StandardCopyOption.REPLACE_EXISTING
+                    )
                 }
             }
         } else throw RuntimeException("Cant find resource $resourcePath")
@@ -97,20 +66,26 @@ class ProjectGeneratorService(targetFolderPath: String) {
      */
     fun generateProject(inst: Installation) {
         logger.info("Project generation started...")
-        val classGenerator = ClassGeneratorService()
+        val existedProject = File(artifactConstants.projectFolder)
+        if(existedProject.exists()) {
+            logger.info("Found existed project folder, deleting...")
+            existedProject.delete()
+            logger.info("Existed project deleting - done")
+        }
+        val classGenerator = ClassGeneratorService(artifactConstants)
         logger.info("Class generation started...")
         inst.metaClasses.forEach {
             val classProto: TypeSpec = classGenerator.generateClassProto(it).build()
-            val file = File(generatedProjectSrcPath);
-            val fileContent = JavaFile.builder(packageService.packageName, classProto).build();
+            val file = File(artifactConstants.generatedProjectSrcPath);
+            val fileContent = JavaFile.builder(artifactConstants.packageName, classProto).build();
             fileContent.writeTo(file);
         }
         logger.info("Class generation - done")
         logger.info("Metainfo class generation started...")
-        val metaClassGenService = MetainfoClassGeneratorService(classGenerator)
+        val metaClassGenService = MetainfoClassGeneratorService(classGenerator, artifactConstants)
         val meteClazz: TypeSpec = metaClassGenService.generateMetaInfoClass().build()
-        val fileContent = JavaFile.builder(packageService.generatedMetaClassPackage, meteClazz)
-        fileContent.build().writeTo(File(generatedProjectSrcPath))
+        val fileContent = JavaFile.builder(artifactConstants.generatedMetaClassPackage, meteClazz)
+        fileContent.build().writeTo(File(artifactConstants.generatedProjectSrcPath))
         logger.info("Metainfo class generation - done")
         logger.info("Copy files...")
         val classLoader: ClassLoader = Thread.currentThread().contextClassLoader
@@ -118,16 +93,13 @@ class ProjectGeneratorService(targetFolderPath: String) {
             val inputStream: InputStream? = classLoader.getResourceAsStream("projectFiles\\$it")
             if (inputStream != null) Files.copy(
                 inputStream,
-                File("$projectPath\\$it").toPath(),
+                File("${artifactConstants.projectFolder}\\$it").toPath(),
                 StandardCopyOption.REPLACE_EXISTING
             )
             else throw RuntimeException("Cant find resource $it")
         }
-        copyResourceDirectoryToLocation("projectFiles\\gradle", "$projectPath\\gradle")
+        copyResourceDirectoryToLocation("projectFiles\\gradle", "${artifactConstants.projectFolder}\\gradle")
         logger.info("Copy files - done")
-        logger.info("Starting building jar...")
-        runGradleBuild()
-        logger.info("Jar build - done")
         logger.info("Project generation - done")
     }
 }

@@ -2,7 +2,7 @@ package tests.gen
 
 import com.squareup.javapoet.JavaFile
 import ru.ekazantsev.nsd_fake_class_generator.data.dto.MetaClass
-import ru.ekazantsev.nsd_fake_class_generator.src_generation.ClassGeneratorService
+import ru.ekazantsev.nsd_fake_class_generator.services.src_generation.ClassGeneratorService
 
 
 import static tests.TestUtils.*

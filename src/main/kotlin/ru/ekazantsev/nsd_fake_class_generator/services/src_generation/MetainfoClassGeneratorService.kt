@@ -1,31 +1,27 @@
-package ru.ekazantsev.nsd_fake_class_generator.src_generation
+package ru.ekazantsev.nsd_fake_class_generator.services.src_generation
 
 import com.squareup.javapoet.*
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import ru.ekazantsev.nsd_fake_class_generator.ArtifactConstants
 import java.util.stream.Collectors
 import javax.lang.model.element.Modifier
 
 /**
  * Служба, генерирующая прототип класса, являющийся хранилищем метаинформации
  */
-class MetainfoClassGeneratorService(private val classGeneratorService: ClassGeneratorService) {
-
-    constructor(classGeneratorService: ClassGeneratorService, packageService: PackageService) : this(
-        classGeneratorService
-    ) {
-        this.packageService = packageService
-    }
+class MetainfoClassGeneratorService(
+    private val classGeneratorService: ClassGeneratorService,
+    private val artifactConstants: ArtifactConstants
+) {
 
     private val logger: Logger = LoggerFactory.getLogger(MetainfoClassGeneratorService::class.java)
-
-    private var packageService: PackageService = PackageService()
 
     /**
      * Генерирует прототип класса, являющийся хранилищем метаинформации
      */
     fun generateMetaInfoClass(): TypeSpec.Builder {
-        val generatedMetaClassProto = TypeSpec.classBuilder(packageService.generatedMetaClassName)
+        val generatedMetaClassProto = TypeSpec.classBuilder(artifactConstants.generatedMetaClassName)
         generatedMetaClassProto.addField(
             FieldSpec
                 .builder(
@@ -45,7 +41,7 @@ class MetainfoClassGeneratorService(private val classGeneratorService: ClassGene
         generatedMetaClassProto.addField(
             FieldSpec.builder(String::class.java, "generatedClassesPackage")
                 .addModifiers(Modifier.PRIVATE, Modifier.FINAL)
-                .initializer("\"\$L\"", packageService.packageName)
+                .initializer("\"\$L\"", artifactConstants.packageName)
                 .addJavadoc(CodeBlock.of("Получить перечень наименований сгенерированных классов"))
                 .build()
         )

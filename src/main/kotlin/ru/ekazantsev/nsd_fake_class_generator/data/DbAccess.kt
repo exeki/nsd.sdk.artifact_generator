@@ -9,16 +9,18 @@ import ru.ekazantsev.nsd_fake_class_generator.data.dto.*
 /**
  * Класс, инициализирующий связь с базой и предоставляющий доступ к данным
  */
-class DbAccess private constructor(val dbFilePath: String) {
+class DbAccess private constructor(dbFilePath: String) {
     companion object {
         private var instance: DbAccess? = null
+
         /**
          * Получить экземпляр класса
          * @return имеющийся экземпляр или новый, если ранее еще не был создан
          */
         @JvmStatic
         fun getInstance(): DbAccess {
-            if(instance == null) instance = DbAccess(System.getProperty("user.home") + "\\nsd_sdk\\data\\sdk_meta_store")
+            if (instance == null) instance =
+                DbAccess(System.getProperty("user.home") + "\\nsd_sdk\\data\\sdk_meta_store")
             return instance as DbAccess
         }
     }

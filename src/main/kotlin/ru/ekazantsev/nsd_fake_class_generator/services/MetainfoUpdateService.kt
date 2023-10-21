@@ -18,14 +18,15 @@ import java.util.*
  * @param connectorParams  параметры коннектора, из них будет извлечена и сохранена инсталляция
  * @param metaClassCodes коды метаклассов, которые будут затянуты и сохранены в хранилище
  */
-class MetainfoUpdateService(connectorParams: ConnectorParams, val metaClassCodes: MutableSet<String>) {
+class MetainfoUpdateService(connectorParams: ConnectorParams, private val metaClassCodes: MutableSet<String>) {
+
+    private var irrelevanceTime: Int = 0
     private val db: DbAccess = DbAccess.getInstance()
     private val logger = LoggerFactory.getLogger(javaClass)
     private val connector: FakeApiConnector
     private val metaWriter = MetaClassWriter()
     private val attrWriter = AttributeWriter()
     private val groupWriter = AttributeGroupWriter()
-    private var irrelevanceTime: Int = 0
     private val constantMeta: Set<String> = setOf("file")
     private val installation: Installation = InstallationWriter().createOrUpdate(connectorParams)
     private val fetchedMeta: MutableSet<String> = mutableSetOf()
