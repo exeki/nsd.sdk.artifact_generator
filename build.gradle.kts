@@ -5,7 +5,7 @@ plugins {
     id("org.jetbrains.dokka") version "1.9.10"
 }
 
-group = "ru.ekazantsev"
+group = "ru.kazantsev.nsd"
 version = "1.0.0"
 
 tasks {
@@ -58,8 +58,8 @@ repositories {
 }
 
 dependencies {
-    implementation("ru.ekazantsev:nsd_sdk_data:1.0.0")
-    implementation("ru.ekazantsev:nsd_upper_level_classes:1.0.0")
+    implementation("ru.kazantsev.nsd:sdk_data:1.0.0")
+    implementation("ru.kazantsev.nsd:upper_level_classes:1.0.0")
     implementation("org.slf4j:slf4j-api:2.0.9")
     implementation("ch.qos.logback:logback-classic:1.4.11")
     implementation("org.jsoup:jsoup:1.16.1")

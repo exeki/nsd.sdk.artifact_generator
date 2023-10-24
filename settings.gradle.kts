@@ -1,1 +1,1 @@
-rootProject.name = "nsd_sdk_artifact_generator"
+rootProject.name = "sdk_artifact_generator"

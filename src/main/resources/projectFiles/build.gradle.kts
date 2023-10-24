@@ -43,6 +43,6 @@ repositories {
 }
 
 dependencies {
-    implementation("ru.ekazantsev:nsd_upper_level_classes:1.0.0")
+    implementation("ru.ekazantsev:nsd_global_variables:1.0.0")
     implementation("org.jetbrains:annotations:16.0.1")
 }
