@@ -12,4 +12,4 @@
  *     в него специально внедрена такая возможность
  * </p>
  */
-package ru.ekazantsev.nsd_generated_fake_classes;
+package ru.naumen.core.shared.dto;

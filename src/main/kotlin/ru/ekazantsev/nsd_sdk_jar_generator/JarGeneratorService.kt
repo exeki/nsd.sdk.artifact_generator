@@ -77,37 +77,31 @@ class JarGeneratorService(private val artifactConstants: ArtifactConstants, priv
     fun generate(installation: Installation) {
         logger.info("Start jar generation")
         projectGenerator.generateProject(installation)
-        logger.info("Starting building jar...")
-        runGradleBuild("jar")
-        logger.info("Jar build - done")
-        logger.info("Starting building javadoc...")
-        runGradleBuild("javadoc")
-        logger.info("Javadoc build - done")
-        logger.info("Starting building javadoc jar...")
-        runGradleBuild("javadocJar")
-        logger.info("Javadoc jar build - done")
-        logger.info("Copying jar files to target folder...")
-        val newJarFolder = File(artifactConstants.newJarFolder)
-        if (newJarFolder.exists() && newJarFolder.isDirectory) {
-            newJarFolder.listFiles()?.forEach {
-                logger.info("Checking file ${it.name}...")
-                if (it.name.endsWith(".jar")) {
-                    if (it.exists()) logger.info("${it.name} существует в исходной папке")
-                    logger.info("Copying file ${it.name}...")
-                    val targetFile = File("${artifactConstants.targetJarFolder}\\${it.name}")
-                    targetFile.createNewFile()
-                    Files.copy(
-                        it.toPath(),
-                        targetFile.toPath(),
-                        StandardCopyOption.REPLACE_EXISTING
-                    )
-                    logger.info("Copying file ${it.name} - done")
-                }
-            }
-        } else {
-            throw RuntimeException("Cant find newJarFolder directory ${artifactConstants.newJarFolder} or file is not directory")
-        }
-        logger.info("Copying jar files - done")
-        logger.info("Jar generation - done")
+        logger.info("Starting building artifact...")
+        runGradleBuild("publish")
+        logger.info("Artifact build - done")
+//        logger.info("Copying jar files to target folder...")
+//        val newJarFolder = File(artifactConstants.newJarFolder)
+//        if (newJarFolder.exists() && newJarFolder.isDirectory) {
+//            newJarFolder.listFiles()?.forEach {
+//                logger.info("Checking file ${it.name}...")
+//                if (it.name.endsWith(".jar")) {
+//                    if (it.exists()) logger.info("${it.name} существует в исходной папке")
+//                    logger.info("Copying file ${it.name}...")
+//                    val targetFile = File("${artifactConstants.targetJarFolder}\\${it.name}")
+//                    targetFile.createNewFile()
+//                    Files.copy(
+//                        it.toPath(),
+//                        targetFile.toPath(),
+//                        StandardCopyOption.REPLACE_EXISTING
+//                    )
+//                    logger.info("Copying file ${it.name} - done")
+//                }
+//            }
+//        } else {
+//            throw RuntimeException("Cant find newJarFolder directory ${artifactConstants.newJarFolder} or file is not directory")
+//        }
+//        logger.info("Copying jar files - done")
+        logger.info("Artifact generation - done")
     }
 }

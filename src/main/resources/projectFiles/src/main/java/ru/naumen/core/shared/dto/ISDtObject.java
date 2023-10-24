@@ -3,8 +3,6 @@ package ru.naumen.core.shared.dto;
 import ru.naumen.core.shared.*;
 import ru.naumen.metainfo.shared.IClassFqn;
 
-import javax.annotation.CheckForNull;
-
 /**
  * Переписанный интерфейс NSD, отсюда удалено наследование от Map и ISProperties
  */
@@ -23,7 +21,6 @@ public interface ISDtObject extends IUUIDIdentifiable, ISTitled, HasAttrPermissi
      * @param var2 не знаю
      * @return не знаю
      */
-    @CheckForNull
     Boolean hasAuthAttrPermission(String var1, boolean var2);
 
     /**
@@ -32,6 +29,5 @@ public interface ISDtObject extends IUUIDIdentifiable, ISTitled, HasAttrPermissi
      * @param var1 не знаю
      * @return не знаю
      */
-    @CheckForNull
     Boolean hasPermission(String var1);
 }

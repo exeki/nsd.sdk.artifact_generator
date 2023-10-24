@@ -18,23 +18,17 @@ import java.nio.file.StandardCopyOption
  * @param artifactConstants константы генерируемого артефакта (пути, наименования)
  * @param db экземпляр связи с базой данных
  */
-class ProjectGeneratorService(private var artifactConstants: ArtifactConstants, private val db : DbAccess) {
+class ProjectGeneratorService(private var artifactConstants: ArtifactConstants, private val db: DbAccess) {
 
     private val logger: Logger = LoggerFactory.getLogger(ProjectGeneratorService::class.java)
-
-    private val filesToCopy = setOf(
-        "gradlew",
-        "gradlew.bat",
-        "nsd_upper_level_classes-1.0.0.jar",
-    )
+    private val classLoader: ClassLoader = Thread.currentThread().contextClassLoader
 
     /**
      * Копирует папку из ресурсов проекта в целевую директорию
      * @param resourcePath к папке в ресурсах, которую нужно скопировать
      * @param destinationPath целевой путь, куда копировать
      */
-    private fun copyResourceDirectoryToLocation(resourcePath: String, destinationPath: String) {
-        val classLoader = Thread.currentThread().contextClassLoader
+    private fun copyResourceDirectory(resourcePath: String, destinationPath: String) {
         val resourceUrl = classLoader.getResource(resourcePath)
 
         if (resourceUrl != null) {
@@ -61,6 +55,32 @@ class ProjectGeneratorService(private var artifactConstants: ArtifactConstants, 
     }
 
     /**
+     * Скопировать файл с заменой текста
+     * @param resourcePath ресурс, который нужно скопировать
+     * @param targetFolder целевая папка
+     * @param variables значения для змены
+     */
+    private fun copyResourceAsTemplate(resourcePath: String, targetFolder: String, variables: Map<String, String>) {
+        var template = classLoader.getResource(resourcePath)?.readText()
+            ?: throw RuntimeException("Cant find $resourcePath file in resources")
+        variables.forEach { (key, value) ->
+            template = template.replace("\${$key}", value)
+        }
+        File("$targetFolder\\${File(resourcePath).name}").writeText(template)
+    }
+
+    /**
+     * Скопировать файл
+     * @param resourcePath ресурс, который нужно скопировать
+     * @param targetFolder целевая папка
+     */
+    private fun copyFile(resourcePath: String, targetFolder: String) {
+        val inputStream = classLoader.getResourceAsStream(resourcePath)
+            ?: throw RuntimeException("Cant find $resourcePath file in resources")
+        File("$targetFolder\\${File(resourcePath).name}").writeBytes(inputStream.readAllBytes())
+    }
+
+    /**
      * Сгенерировать проект
      * хранилище метаинформации должно быть заранее наполнено
      * @param inst инсталляция, по которой нужно сгенерировать проект
@@ -68,7 +88,7 @@ class ProjectGeneratorService(private var artifactConstants: ArtifactConstants, 
     fun generateProject(inst: Installation) {
         logger.info("Project generation started...")
         val existedProject = File(artifactConstants.projectFolder)
-        if(existedProject.exists()) {
+        if (existedProject.exists()) {
             logger.info("Found existed project folder, deleting...")
             existedProject.delete()
             logger.info("Existed project deleting - done")
@@ -89,27 +109,26 @@ class ProjectGeneratorService(private var artifactConstants: ArtifactConstants, 
         fileContent.build().writeTo(File(artifactConstants.generatedProjectSrcPath))
         logger.info("Metainfo class generation - done")
         logger.info("Copy files...")
-        val classLoader: ClassLoader = Thread.currentThread().contextClassLoader
-        filesToCopy.forEach {
-            val inputStream: InputStream? = classLoader.getResourceAsStream("projectFiles\\$it")
-            if (inputStream != null) Files.copy(
-                inputStream,
-                File("${artifactConstants.projectFolder}\\$it").toPath(),
-                StandardCopyOption.REPLACE_EXISTING
+
+        copyFile("projectFiles\\gradlew", artifactConstants.projectFolder)
+        copyFile("projectFiles\\gradlew.bat", artifactConstants.projectFolder)
+        copyResourceDirectory("projectFiles\\gradle", "${artifactConstants.projectFolder}\\gradle")
+        copyResourceDirectory("projectFiles\\src", "${artifactConstants.projectFolder}\\src")
+
+        copyResourceAsTemplate(
+            "projectFiles/build.gradle.kts",
+            artifactConstants.projectFolder,
+            mapOf(
+                "targetArtifactVersion" to artifactConstants.targetArtifactVersion,
+                "targetArtifactGroup" to artifactConstants.targetArtifactGroup
             )
-            else throw RuntimeException("Cant find resource $it")
-        }
+        )
 
-        val template = classLoader.getResource("projectFiles/build.gradle")?.readText()
-            ?: throw RuntimeException("Cant find build.gradle file in resources")
-
-        val filledTemplate = template
-            .replace("\${targetJarVersion}", artifactConstants.targetJarVersion)
-            .replace("\${targetJarName}", artifactConstants.targetJarName)
-        File("${artifactConstants.projectFolder}\\build.gradle").writeText(filledTemplate)
-
-        copyResourceDirectoryToLocation("projectFiles\\gradle", "${artifactConstants.projectFolder}\\gradle")
-        copyResourceDirectoryToLocation("projectFiles\\src", "${artifactConstants.projectFolder}\\src")
+        copyResourceAsTemplate(
+            "projectFiles/settings.gradle.kts",
+            artifactConstants.projectFolder,
+            mapOf("targetArtifactName" to artifactConstants.targetArtifactName)
+        )
 
         logger.info("Copy files - done")
         logger.info("Project generation - done")

@@ -31,18 +31,22 @@ class ArtifactConstants {
     /**
      * Наименование jar файла
      */
-    val targetJarName = "nsd_fake_classes"
+    val targetArtifactName = "nsd_fake_classes"
 
     /**
      * Версия jar файла
      */
-    val targetJarVersion = "1.0.0"
+    val targetArtifactVersion = "1.0.0"
+
+    /**
+     * Целевая группа артефакта
+     */
+    val targetArtifactGroup = "ru.ekazantsev"
 
     /**
      * Имя папки создаваемого проекта
      */
     val projectFolderName = "nsd_fake_classes"
-
 
     /**
      * Постфикс для всех сгенерированных классов
