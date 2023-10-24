@@ -27,7 +27,7 @@ class ArtifactConstants {
         /**
          * Группа для артефакта по умолчанию
          */
-        const val defaultArtifactGroup : String = "ru.kazantsev.nsd"
+        const val defaultArtifactGroup : String = "ru.kazantsev.nsd.sdk"
         /**
          * Наименование папки для проекта по умолчанию
          */
