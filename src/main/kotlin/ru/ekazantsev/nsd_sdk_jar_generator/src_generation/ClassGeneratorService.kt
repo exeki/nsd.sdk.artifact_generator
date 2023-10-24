@@ -1,6 +1,7 @@
 package ru.ekazantsev.nsd_sdk_jar_generator.src_generation
 
 import com.squareup.javapoet.CodeBlock
+import com.squareup.javapoet.ParameterizedTypeName
 import com.squareup.javapoet.TypeSpec
 import org.jsoup.Jsoup
 import org.slf4j.Logger
@@ -8,6 +9,7 @@ import org.slf4j.LoggerFactory
 import ru.ekazantsev.nsd_sdk_data.DbAccess
 import ru.ekazantsev.nsd_sdk_data.dto.MetaClass
 import ru.ekazantsev.nsd_sdk_jar_generator.ArtifactConstants
+import ru.naumen.common.shared.utils.ISProperties
 import ru.naumen.core.server.script.spi.IScriptDtObject
 import javax.lang.model.element.Modifier
 
@@ -28,17 +30,18 @@ class ClassGeneratorService(private val artifactConstants: ArtifactConstants, pr
     private fun generateClassJavaDocProto(metaClass: MetaClass): CodeBlock.Builder {
 
         val javaDocProto = CodeBlock.builder()
-            .add("<strong>Наименование: </strong>${metaClass.title}<br>\n")
-            .add("<strong>Код: </strong>${metaClass.fullCode.replace('$', '&')}<br>\n")
-            .add("<strong>Жизненный цикл: </strong>${metaClass.hasWorkflow}<br>\n")
-            .add("<strong>Назначение ответственного: </strong>${metaClass.hasResponsible}<br>\n")
-            .add("<strong>Системный: </strong>${metaClass.hardcoded}<br>\n")
+            .add("<strong>Наименование: </strong>${metaClass.title};<br>\n")
+            .add("<strong>Код: </strong>${metaClass.fullCode.replace('$', artifactConstants.classDelimiter)};<br>\n")
+            .add("<strong>Жизненный цикл: </strong>${metaClass.hasWorkflow};<br>\n")
+            .add("<strong>Назначение ответственного: </strong>${metaClass.hasResponsible};<br>\n")
+            .add("<strong>Системный: </strong>${metaClass.hardcoded};<br>\n")
         if (metaClass.parent != null)
-            javaDocProto.add("<strong>Родитель: </strong>${metaClass.parent!!.fullCode.replace('$', '&')}<br>\n")
+            javaDocProto.add("<strong>Родитель: </strong>${metaClass.parent!!.fullCode.replace('$', artifactConstants.classDelimiter)};<br>\n")
         if (metaClass.description != null && metaClass.description!!.isNotEmpty()) {
-            val clearDescription: String = Jsoup.parse(metaClass.description!!).text().replace('$', '&')
+            var clearDescription: String = Jsoup.parse(metaClass.description!!).text().replace('$', artifactConstants.classDelimiter)
             if (clearDescription.isNotEmpty()) {
-                javaDocProto.add("<strong>Описание: </strong> $clearDescription")
+                clearDescription = clearDescription.replace('>', ' ').replace('<', ' ')
+                javaDocProto.add("<strong>Описание: </strong> $clearDescription;")
             }
         }
         return javaDocProto
@@ -57,6 +60,10 @@ class ClassGeneratorService(private val artifactConstants: ArtifactConstants, pr
             .classBuilder(className)
             .addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
             .addSuperinterface(IScriptDtObject::class.java)
+        if(metaClass.fullCode == "abstractBO") {
+            classProto.addSuperinterface(ISProperties::class.java)
+            classProto.addSuperinterface(ParameterizedTypeName.get(Map::class.java, String::class.java, Object::class.java))
+        }
         logger.debug("Creating class proto - done")
         logger.debug("Generating javaDoc...")
         classProto.addJavadoc(generateClassJavaDocProto(metaClass).build())

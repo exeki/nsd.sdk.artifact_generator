@@ -1,0 +1,1 @@
+rootProject.name = "nsd_sdk_jar_generator"

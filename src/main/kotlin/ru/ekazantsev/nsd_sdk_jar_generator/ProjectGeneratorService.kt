@@ -109,6 +109,8 @@ class ProjectGeneratorService(private var artifactConstants: ArtifactConstants, 
         File("${artifactConstants.projectFolder}\\build.gradle").writeText(filledTemplate)
 
         copyResourceDirectoryToLocation("projectFiles\\gradle", "${artifactConstants.projectFolder}\\gradle")
+        copyResourceDirectoryToLocation("projectFiles\\src", "${artifactConstants.projectFolder}\\src")
+
         logger.info("Copy files - done")
         logger.info("Project generation - done")
     }

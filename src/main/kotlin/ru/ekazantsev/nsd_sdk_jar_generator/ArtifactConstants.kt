@@ -1,5 +1,7 @@
 package ru.ekazantsev.nsd_sdk_jar_generator
 
+import java.io.File
+
 /**
  * Путь до папки, куда будет помещен целевой jar файл
  */
@@ -9,26 +11,48 @@ package ru.ekazantsev.nsd_sdk_jar_generator
  * @param targetJarFolder путь до папки, куда будет помещен целевой jar файл
  * @param projectPath путь до папки, где будет создана папка с проектом
  */
-class ArtifactConstants (
-    private val targetJarFolder: String,
-    private val projectPath : String
-) {
+class ArtifactConstants {
+
+    constructor(workingDirectoryPath: String) {
+        this.workingDirectory = workingDirectoryPath
+        this.projectPath = "$workingDirectory\\data"
+        this.projectFolder = "$projectPath\\$projectFolderName"
+        this.generatedProjectSrcPath = "$projectFolder\\src\\main\\java"
+        this.newJarFolder = "$projectFolder\\build\\libs"
+        this.targetJarFolder = "$workingDirectory\\out"
+        listOf(newJarFolder, targetJarFolder, generatedProjectSrcPath).forEach { File(it).mkdirs() }
+    }
 
     /**
      * Расставит все параметры по умолчанию
      */
-    constructor() : this("${System.getProperty("user.home")}\\nsd_sdk\\out")
+    constructor() : this("${System.getProperty("user.home")}\\nsd_sdk")
 
     /**
-     * Установит projectPath по умолчанию
-     * @param targetJarFolder путь до папки, куда будет помещен целевой jar файл
+     * Наименование jar файла
      */
-    constructor(targetJarFolder: String) : this(targetJarFolder,  "${System.getProperty("user.home")}\\nsd_sdk\\data")
+    val targetJarName = "nsd_fake_classes"
+
+    /**
+     * Версия jar файла
+     */
+    val targetJarVersion = "1.0.0"
+
+    /**
+     * Имя папки создаваемого проекта
+     */
+    val projectFolderName = "nsd_fake_classes"
+
 
     /**
      * Постфикс для всех сгенерированных классов
      */
-    private val classNamePostfix = "ScriptDtObject"
+    val classNamePostfix = "SDO"
+
+    /**
+     * Во всех классах или описаниях классов будет этот символ
+     */
+    val classDelimiter: Char = '_'
 
     /**
      * Пакет, куда будут сгружаться все сгенерированные классы
@@ -46,39 +70,34 @@ class ArtifactConstants (
     val generatedMetaClassPackage = "ru.ekazantsev.nsd_generated_fake_classes"
 
     /**
-     * Имя папки создаваемого проекта
+     * Работая директория для хранения файлов
      */
-    private val projectFolderName = "nsd_fake_classes"
+    val workingDirectory: String
 
     /**
-     * Путь до папки проекта
+     * Папка куда будут сгружены все итоговые jar файлы
      */
-    val projectFolder: String = "$projectPath\\$projectFolderName"
+    val targetJarFolder: String
+
+    /**
+     * Путь до папки, куда будет помещена папка с проектом
+     */
+    val projectFolder: String
+
+    /**
+     * Путь до проекта
+     */
+    val projectPath: String
 
     /**
      * Папка исходников сгенерированного проекта
      */
-    val generatedProjectSrcPath = "$projectFolder\\src\\main\\java"
-
-    /**
-     * Наименование jar файла
-     */
-    val targetJarName = "nsd_fake_classes"
-
-    /**
-     * Версия jar файла
-     */
-    val targetJarVersion = "1.0.0"
+    val generatedProjectSrcPath: String
 
     /**
      * Путь до собранного jar в проекте файла
      */
-    val newJarPath = "$projectFolder\\build\\libs\\$targetJarName-$targetJarVersion.jar"
-
-    /**
-     * Целевой путь до jar файла
-     */
-    val targetJarPath : String = "$targetJarFolder\\$targetJarName-$targetJarVersion.jar"
+    val newJarFolder: String
 
     /**
      * Получить наименование для класса на основании кода метакласса NSD
@@ -89,7 +108,6 @@ class ArtifactConstants (
             strings.add(it[0].uppercase() + it.substring(1, it.length))
         }
         strings.add(classNamePostfix)
-        return strings.joinToString("\$")
+        return strings.joinToString(classDelimiter.toString())
     }
-
 }

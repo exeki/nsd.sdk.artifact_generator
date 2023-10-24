@@ -120,19 +120,20 @@ class FieldGeneratorService(private var artifactConstants: ArtifactConstants, pr
      */
     private fun generateFieldJavaDocProto(attr: Attribute): CodeBlock.Builder {
         val javaDocProto = CodeBlock.builder()
-            .add("<strong>Наименование: </strong>${attr.title}<br>\n")
-            .add("<strong>Код: </strong>${attr.code}<br>\n")
-            .add("<strong>Тип: </strong>${attr.type.getTitle()}<br>\n")
-        if (attr.relatedMetaClass != null) javaDocProto.add("<strong>Связанный метакласс: </strong>${attr.relatedMetaClass}<br>\n")
+            .add("<strong>Наименование: </strong>${attr.title};<br>\n")
+            .add("<strong>Код: </strong>${attr.code};<br>\n")
+            .add("<strong>Тип: </strong>${attr.type.getTitle()};<br>\n")
+        if (attr.relatedMetaClass != null) javaDocProto.add("<strong>Связанный метакласс: </strong>${attr.relatedMetaClass};<br>\n")
         javaDocProto
-            .add("<strong>Обязателен: </strong>${attr.required}<br>\n")
-            .add("<strong>Обязателен в интерфейсе: </strong>${attr.requiredInInterface}<br>\n")
-            .add("<strong>Уникальный: </strong>${attr.unique}<br>\n")
-            .add("<strong>Системный: </strong>${attr.hardcoded}<br>\n")
+            .add("<strong>Обязателен: </strong>${attr.required};<br>\n")
+            .add("<strong>Обязателен в интерфейсе: </strong>${attr.requiredInInterface};<br>\n")
+            .add("<strong>Уникальный: </strong>${attr.unique};<br>\n")
+            .add("<strong>Системный: </strong>${attr.hardcoded};<br>\n")
         if (attr.description != null && attr.description!!.isNotEmpty()) {
-            val clearDescription: String = Jsoup.parse(attr.description!!).text().replace('$', '&')
+            var clearDescription: String = Jsoup.parse(attr.description!!).text().replace('$', artifactConstants.classDelimiter)
             if (clearDescription.isNotEmpty()) {
-                javaDocProto.add("<strong>Описание: </strong> $clearDescription")
+                clearDescription = clearDescription.replace('<', ' ').replace('>', ' ')
+                javaDocProto.add("<strong>Описание: </strong> $clearDescription;")
             }
         }
         return javaDocProto
