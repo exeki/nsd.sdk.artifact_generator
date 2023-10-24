@@ -1,4 +1,4 @@
-package ru.ekazantsev.nsd_sdk_jar_generator.src_generation
+package ru.kazantsev.nsd.sdk_jar_generator.src_generation
 
 import com.squareup.javapoet.*
 import org.jetbrains.annotations.NotNull
@@ -6,10 +6,10 @@ import org.jetbrains.annotations.Nullable
 import org.jsoup.Jsoup
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import ru.ekazantsev.nsd_sdk_data.DbAccess
-import ru.ekazantsev.nsd_sdk_data.dto.Attribute
-import ru.ekazantsev.nsd_sdk_data.dto.AttributeType
-import ru.ekazantsev.nsd_sdk_jar_generator.ArtifactConstants
+import ru.kazantsev.nsd.sdk_data.DbAccess
+import ru.kazantsev.nsd.sdk_data.dto.Attribute
+import ru.kazantsev.nsd.sdk_data.dto.AttributeType
+import ru.kazantsev.nsd.sdk_jar_generator.ArtifactConstants
 import ru.naumen.common.shared.utils.DateTimeInterval
 import ru.naumen.common.shared.utils.IHyperlink
 import ru.naumen.core.server.script.spi.AggregateContainerWrapper

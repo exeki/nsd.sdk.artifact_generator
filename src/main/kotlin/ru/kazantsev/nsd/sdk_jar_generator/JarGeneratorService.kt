@@ -1,9 +1,9 @@
-package ru.ekazantsev.nsd_sdk_jar_generator
+package ru.kazantsev.nsd.sdk_jar_generator
 
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import ru.ekazantsev.nsd_sdk_data.DbAccess
-import ru.ekazantsev.nsd_sdk_data.dto.Installation
+import ru.kazantsev.nsd.sdk_data.DbAccess
+import ru.kazantsev.nsd.sdk_data.dto.Installation
 import java.io.File
 
 /**

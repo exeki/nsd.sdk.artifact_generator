@@ -1,4 +1,4 @@
-package ru.ekazantsev.nsd_sdk_jar_generator
+package ru.kazantsev.nsd.sdk_jar_generator
 
 import java.io.File
 
@@ -31,7 +31,7 @@ class ArtifactConstants {
         /**
          * Группа для артефакта по умолчанию
          */
-        const val defaultArtifactGroup : String = "ru.ekazantsev.nsd"
+        const val defaultArtifactGroup : String = "ru.kazantsev.nsd"
         /**
          * Наименование папки для проекта по умолчанию
          */
@@ -51,7 +51,7 @@ class ArtifactConstants {
         /**
          * Пакет, куда будет отправлен класс, содержащий метоинформацию артефакта  по умолчанию
          */
-        const val defaultGeneratedMetaClassPackage : String = "ru.ekazantsev.nsd_generated_fake_classes"
+        const val defaultGeneratedMetaClassPackage : String = "ru.kazantsev.nsd.generated_fake_classes"
         /**
          * Наименование класса с метаинформацией по умолчанию
          */
