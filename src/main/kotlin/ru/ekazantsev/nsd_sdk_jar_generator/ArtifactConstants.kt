@@ -15,47 +15,47 @@ class ArtifactConstants {
         /**
          * Наименование артификата по умолчанию
          */
-        val defaultArtifactName: String = "nsd_fake_classes"
+        const val defaultArtifactName: String = "nsd_fake_classes"
         /**
          * Префикс для артефакта, если ему задается наименование
          */
-        val defaultArtifactPrefix: String = "nsd_"
+        const val defaultArtifactPrefix: String = "nsd_"
         /**
          * Постфикс для артефакта, если ему задается наименование
          */
-        val defaultArtifactPostfix: String = "_fake_classes"
+        const val defaultArtifactPostfix: String = "_fake_classes"
         /**
          * Версия для артефакта по умолчанию
          */
-        val defaultArtifactVersion : String = "1.0.0"
+        const val defaultArtifactVersion : String = "1.0.0"
         /**
          * Группа для артефакта по умолчанию
          */
-        val defaultArtifactGroup : String = "ru.ekazantsev"
+        const val defaultArtifactGroup : String = "ru.ekazantsev"
         /**
          * Наименование папки для проекта по умолчанию
          */
-        val defaultProjectFolderName : String = "fake_classes_project"
+        const val defaultProjectFolderName : String = "fake_classes_project"
         /**
          * Постфикс для генерируемых классов по умолчанию
          */
-        val defaultClassNamePostfix : String = "SDO"
+        const val defaultClassNamePostfix : String = "SDO"
         /**
          * Разделитель меж частиями имени генерируемых классов (класс, тип метакласса и постфикс)  по умолчанию
          */
-        val defaultClassDelimiter : Char = '_'
+        const val defaultClassDelimiter : Char = '_'
         /**
          * Пакет, куда будут складываться все генерируемые классы  по умолчанию
          */
-        val defaultPackageName : String = "ru.naumen.core.server.script.spi"
+        const val defaultPackageName : String = "ru.naumen.core.server.script.spi"
         /**
          * Пакет, куда будет отправлен класс, содержащий метоинформацию артефакта  по умолчанию
          */
-        val defaultGeneratedMetaClassPackage : String = "ru.ekazantsev.nsd_generated_fake_classes"
+        const val defaultGeneratedMetaClassPackage : String = "ru.ekazantsev.nsd_generated_fake_classes"
         /**
          * Наименование класса с метаинформацией по умолчанию
          */
-        val defaultGeneratedMetaClassName : String = "GeneratedMeta"
+        const val defaultGeneratedMetaClassName : String = "GeneratedMeta"
     }
 
     /**
