@@ -1,1 +1,1 @@
-rootProject.name = "sdk_artifact_generator"
+rootProject.name = "artifact_generator"

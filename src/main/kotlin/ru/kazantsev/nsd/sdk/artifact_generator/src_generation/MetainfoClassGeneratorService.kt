@@ -1,7 +1,7 @@
-package ru.kazantsev.nsd.sdk_jar_generator.src_generation
+package ru.kazantsev.nsd.sdk.artifact_generator.src_generation
 
 import com.squareup.javapoet.*
-import ru.kazantsev.nsd.sdk_jar_generator.ArtifactConstants
+import ru.kazantsev.nsd.sdk.artifact_generator.ArtifactConstants
 import java.util.stream.Collectors
 import javax.lang.model.element.Modifier
 

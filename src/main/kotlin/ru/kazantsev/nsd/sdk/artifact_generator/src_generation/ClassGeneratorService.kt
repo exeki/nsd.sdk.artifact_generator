@@ -1,4 +1,4 @@
-package ru.kazantsev.nsd.sdk_jar_generator.src_generation
+package ru.kazantsev.nsd.sdk.artifact_generator.src_generation
 
 import com.squareup.javapoet.CodeBlock
 import com.squareup.javapoet.ParameterizedTypeName
@@ -6,9 +6,9 @@ import com.squareup.javapoet.TypeSpec
 import org.jsoup.Jsoup
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import ru.kazantsev.nsd.sdk_data.DbAccess
-import ru.kazantsev.nsd.sdk_data.dto.MetaClass
-import ru.kazantsev.nsd.sdk_jar_generator.ArtifactConstants
+import ru.kazantsev.nsd.sdk.data.DbAccess
+import ru.kazantsev.nsd.sdk.data.dto.MetaClass
+import ru.kazantsev.nsd.sdk.artifact_generator.ArtifactConstants
 import ru.naumen.common.shared.utils.ISProperties
 import ru.naumen.core.server.script.spi.IScriptDtObject
 import javax.lang.model.element.Modifier

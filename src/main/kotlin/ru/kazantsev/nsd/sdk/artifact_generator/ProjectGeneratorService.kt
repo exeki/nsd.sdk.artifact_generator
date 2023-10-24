@@ -1,12 +1,12 @@
-package ru.kazantsev.nsd.sdk_jar_generator
+package ru.kazantsev.nsd.sdk.artifact_generator
 
 import com.squareup.javapoet.*
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import ru.kazantsev.nsd.sdk_data.DbAccess
-import ru.kazantsev.nsd.sdk_data.dto.Installation
-import ru.kazantsev.nsd.sdk_jar_generator.src_generation.ClassGeneratorService
-import ru.kazantsev.nsd.sdk_jar_generator.src_generation.MetainfoClassGeneratorService
+import ru.kazantsev.nsd.sdk.data.DbAccess
+import ru.kazantsev.nsd.sdk.data.dto.Installation
+import ru.kazantsev.nsd.sdk.artifact_generator.src_generation.ClassGeneratorService
+import ru.kazantsev.nsd.sdk.artifact_generator.src_generation.MetainfoClassGeneratorService
 import java.io.File
 import java.nio.file.Files
 import java.nio.file.StandardCopyOption

@@ -1,4 +1,4 @@
-package ru.kazantsev.nsd.sdk_jar_generator
+package ru.kazantsev.nsd.sdk.artifact_generator
 
 import java.io.File
 
