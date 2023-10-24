@@ -3,28 +3,25 @@ package ru.ekazantsev.nsd_sdk_jar_generator
 import java.io.File
 
 /**
- * Путь до папки, куда будет помещен целевой jar файл
- */
-
-/**
- * Служба, хранящая основные константы генерируемого артефакта
- * @param targetJarFolder путь до папки, куда будет помещен целевой jar файл
- * @param projectPath путь до папки, где будет создана папка с проектом
+ * Отвечает за константы артефакта
  */
 class ArtifactConstants {
 
+    /**
+     * Задает путь до рабочей директории, где будет сгенерирован проект
+     * @param workingDirectoryPath путь до рабочей директории, где будет сгенерирован проект
+     */
     constructor(workingDirectoryPath: String) {
         this.workingDirectory = workingDirectoryPath
         this.projectPath = "$workingDirectory\\data"
         this.projectFolder = "$projectPath\\$projectFolderName"
         this.generatedProjectSrcPath = "$projectFolder\\src\\main\\java"
         this.newJarFolder = "$projectFolder\\build\\libs"
-        this.targetJarFolder = "$workingDirectory\\out"
-        listOf(newJarFolder, targetJarFolder, generatedProjectSrcPath).forEach { File(it).mkdirs() }
+        listOf(newJarFolder, generatedProjectSrcPath).forEach { File(it).mkdirs() }
     }
 
     /**
-     * Расставит все параметры по умолчанию
+     * Расставит путь до рабочей директории по умолчанию ${System.getProperty("user.home")}\nsd_sdk
      */
     constructor() : this("${System.getProperty("user.home")}\\nsd_sdk")
 
@@ -77,11 +74,6 @@ class ArtifactConstants {
      * Работая директория для хранения файлов
      */
     val workingDirectory: String
-
-    /**
-     * Папка куда будут сгружены все итоговые jar файлы
-     */
-    val targetJarFolder: String
 
     /**
      * Путь до папки, куда будет помещена папка с проектом

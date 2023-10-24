@@ -5,12 +5,21 @@ import org.slf4j.LoggerFactory
 import ru.ekazantsev.nsd_sdk_data.DbAccess
 import ru.ekazantsev.nsd_sdk_data.dto.Installation
 import java.io.File
-import java.nio.file.Files
-import java.nio.file.StandardCopyOption
 
+/**
+ * @param artifactConstants константы артефакта
+ * @param db объект соединения с базой данных
+ */
 class JarGeneratorService(private val artifactConstants: ArtifactConstants, private val db: DbAccess) {
 
+    /**
+     * Это логгер. Думаю тут все понятно
+     */
     private val logger: Logger = LoggerFactory.getLogger(JarGeneratorService::class.java)
+
+    /**
+     * Экземпляр службы, генерирущей проект
+     */
     private val projectGenerator: ProjectGeneratorService = ProjectGeneratorService(artifactConstants, db)
 
     /**
