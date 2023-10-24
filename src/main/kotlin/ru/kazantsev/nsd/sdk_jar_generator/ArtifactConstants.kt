@@ -17,10 +17,6 @@ class ArtifactConstants {
          */
         const val defaultArtifactName: String = "nsd_fake_classes"
         /**
-         * Префикс для артефакта, если ему задается наименование
-         */
-        const val defaultArtifactPrefix: String = "nsd_"
-        /**
          * Постфикс для артефакта, если ему задается наименование
          */
         const val defaultArtifactPostfix: String = "_fake_classes"
@@ -66,7 +62,7 @@ class ArtifactConstants {
         this.workingDirectory = workingDirectoryPath
         this.projectPath = "$workingDirectory\\data"
         if(artifactName == null) this.targetArtifactName = defaultArtifactName
-        else this.targetArtifactName = defaultArtifactPrefix + artifactName.lowercase() + defaultArtifactPostfix
+        else this.targetArtifactName = artifactName.lowercase() + defaultArtifactPostfix
         this.projectFolder ="$projectPath\\$projectFolderName"
         this.generatedProjectSrcPath = "$projectFolder\\src\\main\\java"
         listOf(generatedProjectSrcPath).forEach { File(it).mkdirs() }
