@@ -43,6 +43,6 @@ repositories {
 }
 
 dependencies {
-    implementation("ru.kazantsev.nsd.sdk:global_variables:1.0.0")
+    api("ru.kazantsev.nsd.sdk:global_variables:1.0.0")
     implementation("org.jetbrains:annotations:16.0.1")
 }
