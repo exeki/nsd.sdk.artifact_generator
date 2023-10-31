@@ -47,7 +47,7 @@ class ArtifactConstants {
         /**
          * Пакет, куда будет отправлен класс, содержащий метоинформацию артефакта  по умолчанию
          */
-        const val defaultGeneratedMetaClassPackage : String = "ru.kazantsev.nsd.generated_fake_classes"
+        const val defaultGeneratedMetaClassPackage : String = "ru.kazantsev.nsd.sdk.generated_fake_classes"
         /**
          * Наименование класса с метаинформацией по умолчанию
          */
