@@ -13,10 +13,6 @@ class ArtifactConstants {
      */
     companion object {
         /**
-         * Наименование артификата по умолчанию
-         */
-        const val defaultArtifactName: String = "nsd_fake_classes"
-        /**
          * Постфикс для артефакта, если ему задается наименование
          */
         const val defaultArtifactPostfix: String = "_fake_classes"
@@ -58,11 +54,10 @@ class ArtifactConstants {
      * @param workingDirectoryPath путь до рабочей директории, где будет сгенерирован проект
      * @param artifactName префикс артефакта
      */
-    constructor(artifactName: String?, workingDirectoryPath: String) {
-        this.workingDirectory = workingDirectoryPath
+    constructor(artifactName: String, workingDirectoryPath: String) {
+        this.workingDirectory = "${workingDirectoryPath}\\${artifactName.lowercase()}"
         this.projectPath = "$workingDirectory\\data"
-        if(artifactName == null) this.targetArtifactName = defaultArtifactName
-        else this.targetArtifactName = artifactName.lowercase() + defaultArtifactPostfix
+        this.targetArtifactName = artifactName.lowercase() + defaultArtifactPostfix
         this.projectFolder ="$projectPath\\$projectFolderName"
         this.generatedProjectSrcPath = "$projectFolder\\src\\main\\java"
         listOf(generatedProjectSrcPath).forEach { File(it).mkdirs() }
@@ -72,13 +67,7 @@ class ArtifactConstants {
      * Расставит путь до рабочей директории по умолчанию ${System.getProperty("user.home")}\nsd_sdk
      * @param artifactName префикс артефакта
      */
-    constructor(artifactName: String?) : this(artifactName, "${System.getProperty("user.home")}\\nsd_sdk")
-
-    /**
-     * Расставит путь до рабочей директории по умолчанию ${System.getProperty("user.home")}\nsd_sdk
-     * и укажет префикс артефакта в виде "noname"
-     */
-    constructor() : this(null)
+    constructor(artifactName: String) : this(artifactName, "${System.getProperty("user.home")}\\nsd_sdk")
 
     /**
      * Наименование jar файла
