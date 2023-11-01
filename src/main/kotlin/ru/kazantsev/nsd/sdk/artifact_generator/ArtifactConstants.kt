@@ -55,8 +55,8 @@ class ArtifactConstants {
      * @param artifactName префикс артефакта
      */
     constructor(artifactName: String, workingDirectoryPath: String) {
-        this.workingDirectory = "${workingDirectoryPath}\\${artifactName.lowercase()}"
-        this.projectPath = "$workingDirectory\\data"
+        this.workingDirectory = "${workingDirectoryPath}\\data\\${artifactName.lowercase()}"
+        this.projectPath = workingDirectory
         this.targetArtifactName = artifactName.lowercase() + defaultArtifactPostfix
         this.projectFolder ="$projectPath\\$projectFolderName"
         this.generatedProjectSrcPath = "$projectFolder\\src\\main\\java"
