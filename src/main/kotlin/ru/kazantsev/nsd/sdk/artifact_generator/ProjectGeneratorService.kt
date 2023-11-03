@@ -20,7 +20,7 @@ import java.nio.file.StandardCopyOption
 class ProjectGeneratorService(private var artifactConstants: ArtifactConstants, private val db: DbAccess) {
 
     private val logger: Logger = LoggerFactory.getLogger(ProjectGeneratorService::class.java)
-    private val classLoader: ClassLoader = Thread.currentThread().contextClassLoader
+    private val classLoader: ClassLoader = this.javaClass.classLoader
 
     /**
      * Копирует папку из ресурсов проекта в целевую директорию
@@ -71,12 +71,12 @@ class ProjectGeneratorService(private var artifactConstants: ArtifactConstants, 
     /**
      * Скопировать файл
      * @param resourcePath ресурс, который нужно скопировать
-     * @param targetFolder целевая папка
+     * @param targetFile целевой файл
      */
-    private fun copyFile(resourcePath: String, targetFolder: String) {
+    private fun copyFile(resourcePath: String, targetFile: String) {
         val inputStream = classLoader.getResourceAsStream(resourcePath)
             ?: throw RuntimeException("Cant find $resourcePath file in resources")
-        File("$targetFolder\\${File(resourcePath).name}").writeBytes(inputStream.readAllBytes())
+        File(targetFile).writeBytes(inputStream.readAllBytes())
     }
 
     /**
@@ -109,13 +109,44 @@ class ProjectGeneratorService(private var artifactConstants: ArtifactConstants, 
         logger.info("Metainfo class generation - done")
         logger.info("Copy files...")
 
-        copyFile("projectFiles\\gradlew", artifactConstants.projectFolder)
-        copyFile("projectFiles\\gradlew.bat", artifactConstants.projectFolder)
-        copyResourceDirectory("projectFiles\\gradle", "${artifactConstants.projectFolder}\\gradle")
-        copyResourceDirectory("projectFiles\\src", "${artifactConstants.projectFolder}\\src")
+        copyFile(
+            "ru/kazantsev/nsd/sdk/artifact_generator/project_files/gradle/wrapper/gradle-wrapper.jar",
+            "${artifactConstants.projectFolder}\\gradle\\wrapper\\gradle-wrapper.jar"
+        )
+        copyFile(
+            "ru/kazantsev/nsd/sdk/artifact_generator/project_files/gradle/wrapper/gradle-wrapper.properties",
+            "${artifactConstants.projectFolder}\\gradle\\wrapper\\gradle-wrapper.properties"
+        )
+        copyFile(
+            "ru/kazantsev/nsd/sdk/artifact_generator/project_files/src/main/java/ru/kazantsev.nsd.sdk.generated_fake_classes/package-info.java",
+            "${artifactConstants.generatedProjectSrcPath}\\ru\\kazantsev\\nsd\\sdk\\generated_fake_classes\\package-info.java"
+        )
+        copyFile(
+            "ru/kazantsev/nsd/sdk/artifact_generator/project_files/src/main/java/ru/naumen/core/server/script/spi/package-info.java",
+            "${artifactConstants.generatedProjectSrcPath}\\ru\\naumen\\core\\server\\script\\spi\\package-info.java"
+        )
+        copyFile(
+            "ru/kazantsev/nsd/sdk/artifact_generator/project_files/src/main/java/ru/naumen/core/shared/dto/ISDtObject.java",
+            "${artifactConstants.generatedProjectSrcPath}\\ru\\naumen\\core\\shared\\dto\\ISDtObject.java"
+        )
+        copyFile(
+            "ru/kazantsev/nsd/sdk/artifact_generator/project_files/src/main/java/ru/naumen/core/shared/dto/package-info.java",
+            "${artifactConstants.generatedProjectSrcPath}\\ru\\naumen\\core\\shared\\dto\\package-info.java"
+        )
+        copyFile(
+            "ru/kazantsev/nsd/sdk/artifact_generator/project_files/gradlew.bat",
+            "${artifactConstants.projectFolder}\\gradlew.bat"
+        )
+        copyFile(
+            "ru/kazantsev/nsd/sdk/artifact_generator/project_files/gradlew",
+            "${artifactConstants.projectFolder}\\gradlew"
+        )
+
+        //copyResourceDirectory("ru/kazantsev/nsd/sdk/artifact_generator/project_files/gradle", "${artifactConstants.projectFolder}\\gradle")
+        //copyResourceDirectory("ru/kazantsev/nsd/sdk/artifact_generator/project_files/src", "${artifactConstants.projectFolder}\\src")
 
         copyResourceAsTemplate(
-            "projectFiles/build.gradle.kts",
+            "ru/kazantsev/nsd/sdk/artifact_generator/project_files/build.gradle.kts",
             artifactConstants.projectFolder,
             mapOf(
                 "targetArtifactVersion" to artifactConstants.targetArtifactVersion,
@@ -124,7 +155,7 @@ class ProjectGeneratorService(private var artifactConstants: ArtifactConstants, 
         )
 
         copyResourceAsTemplate(
-            "projectFiles/settings.gradle.kts",
+            "ru/kazantsev/nsd/sdk/artifact_generator/project_files/settings.gradle.kts",
             artifactConstants.projectFolder,
             mapOf("targetArtifactName" to artifactConstants.targetArtifactName)
         )
