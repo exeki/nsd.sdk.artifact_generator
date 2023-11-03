@@ -23,37 +23,6 @@ class ProjectGeneratorService(private var artifactConstants: ArtifactConstants, 
     private val classLoader: ClassLoader = this.javaClass.classLoader
 
     /**
-     * Копирует папку из ресурсов проекта в целевую директорию
-     * @param resourcePath к папке в ресурсах, которую нужно скопировать
-     * @param destinationPath целевой путь, куда копировать
-     */
-    private fun copyResourceDirectory(resourcePath: String, destinationPath: String) {
-        val resourceUrl = classLoader.getResource(resourcePath)
-
-        if (resourceUrl != null) {
-            val resourceFile = File(resourceUrl.toURI())
-            val destinationDirectory = File(destinationPath)
-
-            if (resourceFile.isDirectory) {
-                if (!destinationDirectory.exists()) destinationDirectory.mkdirs()
-
-                resourceFile.walkTopDown().forEach { file ->
-                    val relativePath = File(resourceFile.toURI()).toPath().relativize(file.toPath())
-                    val destinationFile = File(destinationDirectory, relativePath.toString())
-
-                    if (file.isDirectory) {
-                        if (!destinationFile.exists()) destinationFile.mkdirs()
-                    } else Files.copy(
-                        Files.newInputStream(file.toPath()),
-                        destinationFile.toPath(),
-                        StandardCopyOption.REPLACE_EXISTING
-                    )
-                }
-            }
-        } else throw RuntimeException("Cant find resource $resourcePath")
-    }
-
-    /**
      * Скопировать файл с заменой текста
      * @param resourcePath ресурс, который нужно скопировать
      * @param targetFolder целевая папка
