@@ -8,8 +8,6 @@ import ru.kazantsev.nsd.sdk.data.dto.Installation
 import ru.kazantsev.nsd.sdk.artifact_generator.src_generation.ClassGeneratorService
 import ru.kazantsev.nsd.sdk.artifact_generator.src_generation.MetainfoClassGeneratorService
 import java.io.File
-import java.nio.file.Files
-import java.nio.file.StandardCopyOption
 
 /**
  * Служба, генерирующая весь проект
@@ -40,12 +38,14 @@ class ProjectGeneratorService(private var artifactConstants: ArtifactConstants, 
     /**
      * Скопировать файл
      * @param resourcePath ресурс, который нужно скопировать
-     * @param targetFile целевой файл
+     * @param targetFilePath целевой файл
      */
-    private fun copyFile(resourcePath: String, targetFile: String) {
+    private fun copyFile(resourcePath: String, targetFilePath: String) {
         val inputStream = classLoader.getResourceAsStream(resourcePath)
             ?: throw RuntimeException("Cant find $resourcePath file in resources")
-        File(targetFile).writeBytes(inputStream.readAllBytes())
+        val targetFile = File(targetFilePath)
+        targetFile.parentFile.mkdirs()
+        targetFile.writeBytes(inputStream.readAllBytes())
     }
 
     /**
