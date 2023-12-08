@@ -1,3 +1,10 @@
+/**
+ * author:
+ * version:
+ * since:
+ * description:
+ */
+
 package tests.gen
 
 import ru.kazantsev.nsd.sdk.data.DbAccess
