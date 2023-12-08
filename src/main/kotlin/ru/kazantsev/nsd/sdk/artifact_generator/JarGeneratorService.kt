@@ -2,8 +2,8 @@ package ru.kazantsev.nsd.sdk.artifact_generator
 
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import ru.kazantsev.nsd.sdk.data.DbAccess
-import ru.kazantsev.nsd.sdk.data.dto.Installation
+import ru.kazantsev.nsd.sdk.artifact_generator.data.DbAccess
+import ru.kazantsev.nsd.sdk.artifact_generator.data.dto.Installation
 import java.io.File
 
 /**

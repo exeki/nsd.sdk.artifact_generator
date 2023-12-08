@@ -7,7 +7,7 @@
 
 package tests.gen
 
-import ru.kazantsev.nsd.sdk.data.DbAccess
+import ru.kazantsev.nsd.sdk.artifact_generator.data.DbAccess
 import ru.kazantsev.nsd.sdk.artifact_generator.ArtifactConstants
 import ru.kazantsev.nsd.sdk.artifact_generator.JarGeneratorService
 

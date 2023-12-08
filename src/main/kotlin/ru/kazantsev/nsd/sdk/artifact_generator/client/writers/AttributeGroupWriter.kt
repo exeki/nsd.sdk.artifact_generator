@@ -1,8 +1,10 @@
-package ru.kazantsev.nsd.sdk.client.writers
+package ru.kazantsev.nsd.sdk.artifact_generator.client.writers
 
-import ru.kazantsev.nsd.sdk.data.dto.*
-import ru.kazantsev.nsd.sdk.data.DbAccess
-import ru.kazantsev.nsd.sdk.client.nsd_connector.dto.AttributeGroupDto
+import ru.kazantsev.nsd.sdk.artifact_generator.data.DbAccess
+import ru.kazantsev.nsd.sdk.artifact_generator.data.dto.AttributeAndGroupLink
+import ru.kazantsev.nsd.sdk.artifact_generator.data.dto.AttributeGroup
+import ru.kazantsev.nsd.sdk.artifact_generator.data.dto.MetaClass
+import ru.kazantsev.nsd.sdk.artifact_generator.client.nsd_connector.dto.AttributeGroupDto
 
 /**
  * Служба, записывающая группы атрибутов в хранилище

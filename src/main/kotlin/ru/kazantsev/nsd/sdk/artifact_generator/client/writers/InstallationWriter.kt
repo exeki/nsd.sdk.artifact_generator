@@ -1,8 +1,8 @@
-package ru.kazantsev.nsd.sdk.client.writers
+package ru.kazantsev.nsd.sdk.artifact_generator.client.writers
 
 import ru.kazantsev.nsd.basic_api_connector.ConnectorParams
-import ru.kazantsev.nsd.sdk.data.dto.*
-import ru.kazantsev.nsd.sdk.data.DbAccess
+import ru.kazantsev.nsd.sdk.artifact_generator.data.DbAccess
+import ru.kazantsev.nsd.sdk.artifact_generator.data.dto.Installation
 
 import java.util.Date
 

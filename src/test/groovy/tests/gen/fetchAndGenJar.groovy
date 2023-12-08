@@ -7,7 +7,7 @@
 
 package tests.gen
 
-import ru.kazantsev.nsd.sdk.client.MetainfoUpdateService
+import ru.kazantsev.nsd.sdk.artifact_generator.client.MetainfoUpdateService
 import ru.kazantsev.nsd.sdk.artifact_generator.JarGeneratorService
 
 import static tests.TestUtils.getConnectorParams

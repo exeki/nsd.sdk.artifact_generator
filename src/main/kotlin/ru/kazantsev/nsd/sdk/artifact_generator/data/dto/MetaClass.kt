@@ -1,4 +1,4 @@
-package ru.kazantsev.nsd.sdk.data.dto
+package ru.kazantsev.nsd.sdk.artifact_generator.data.dto
 
 import com.j256.ormlite.field.DataType
 import com.j256.ormlite.field.DatabaseField

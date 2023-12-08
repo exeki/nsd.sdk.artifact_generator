@@ -1,8 +1,9 @@
-package ru.kazantsev.nsd.sdk.client.writers
+package ru.kazantsev.nsd.sdk.artifact_generator.client.writers
 
-import ru.kazantsev.nsd.sdk.client.nsd_connector.dto.MetaClassWrapperDto
-import ru.kazantsev.nsd.sdk.data.dto.*
-import ru.kazantsev.nsd.sdk.data.DbAccess
+import ru.kazantsev.nsd.sdk.artifact_generator.client.nsd_connector.dto.MetaClassWrapperDto
+import ru.kazantsev.nsd.sdk.artifact_generator.data.DbAccess
+import ru.kazantsev.nsd.sdk.artifact_generator.data.dto.Installation
+import ru.kazantsev.nsd.sdk.artifact_generator.data.dto.MetaClass
 import java.util.*
 
 /**

@@ -6,9 +6,9 @@ import org.jetbrains.annotations.Nullable
 import org.jsoup.Jsoup
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import ru.kazantsev.nsd.sdk.data.DbAccess
-import ru.kazantsev.nsd.sdk.data.dto.Attribute
-import ru.kazantsev.nsd.sdk.data.dto.AttributeType
+import ru.kazantsev.nsd.sdk.artifact_generator.data.DbAccess
+import ru.kazantsev.nsd.sdk.artifact_generator.data.dto.Attribute
+import ru.kazantsev.nsd.sdk.artifact_generator.data.dto.AttributeType
 import ru.kazantsev.nsd.sdk.artifact_generator.ArtifactConstants
 import ru.naumen.common.shared.utils.DateTimeInterval
 import ru.naumen.common.shared.utils.IHyperlink

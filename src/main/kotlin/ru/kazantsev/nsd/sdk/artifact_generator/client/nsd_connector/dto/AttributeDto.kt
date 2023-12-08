@@ -1,4 +1,4 @@
-package ru.kazantsev.nsd.sdk.client.nsd_connector.dto
+package ru.kazantsev.nsd.sdk.artifact_generator.client.nsd_connector.dto
 
 /**
  * DTO с информацией по атрибуту

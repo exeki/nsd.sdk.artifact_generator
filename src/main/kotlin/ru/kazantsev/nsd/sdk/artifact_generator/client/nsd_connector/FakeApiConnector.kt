@@ -1,10 +1,10 @@
-package ru.kazantsev.nsd.sdk.client.nsd_connector
+package ru.kazantsev.nsd.sdk.artifact_generator.client.nsd_connector
 
 import org.apache.http.client.methods.CloseableHttpResponse
 import org.apache.http.util.EntityUtils
 import ru.kazantsev.nsd.basic_api_connector.Connector
 import ru.kazantsev.nsd.basic_api_connector.ConnectorParams
-import ru.kazantsev.nsd.sdk.client.nsd_connector.dto.MetaClassWrapperDto
+import ru.kazantsev.nsd.sdk.artifact_generator.client.nsd_connector.dto.MetaClassWrapperDto
 
 
 /**
